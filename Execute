@@ -1,0 +1,152 @@
+import java.awt.Button;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+
+
+public class Execute {
+	private int [][]cheeseborad=new int[17][17];
+	private JFrame jframe;
+	private AI ai;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Execute window = new Execute();
+					window.jframe.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Execute() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		jframe = new JFrame();
+		jframe.setSize(950, 950);
+		jframe.getContentPane().setLayout(new GridLayout(17,17));
+		final Button button[][] = new Button[17][17];
+		
+		for (int i = 0; i < button.length; i++) {
+			for (int  i1= 0;i1< button.length;i1++) {  
+				button[i][i1] = new Button();
+				jframe.getContentPane().add(button[i][i1]);
+				button[i][i1].addActionListener(
+		                    new ActionListener() {
+		                        public void actionPerformed(ActionEvent e)
+		                        {
+		                        	ai=new AI();
+		                        	loop:
+		                        	for (int j = 0; j < button.length; j++) {
+		                        		for (int j1 = 0; j1 < button.length; j1++) {
+		                        			if(check(cheeseborad)){break loop;}
+			                        		if (e.getSource() == button[j][j1]){
+			                        			if(cheeseborad[j][j1]==0){
+			                        				cheeseborad[j][j1]=1;
+				                        			button[j][j1].setLabel("O");
+				                        			cheeseborad=ai.choice(cheeseborad);
+			                        			}
+			                        			else {
+													System.out.print("It is not empty\n");
+												}
+			                        			
+			                        			
+
+			                        
+				                        		
+				                        	}
+											
+										}
+										
+									}
+
+		                        }
+		                            
+		                        
+		                    });
+
+			}
+			
+		}
+	
+		
+	}
+	static boolean check(int [][]cheeseborad){
+		int c1=16;
+		for (int i = 0; i <17; i++) {
+			for (int j = 0; j <13; j++) {
+				if(cheeseborad[i][j]==cheeseborad[i][j+1]&&cheeseborad[i][j]==cheeseborad[i][j+2]&&cheeseborad[i][j]==cheeseborad[i][j+3]&&cheeseborad[i][j]==cheeseborad[i][j+4]){
+					if(cheeseborad[i][j]==1){
+						System.out.print("Player win!\n");
+						return true;
+					}
+					else if (cheeseborad[i][j]==2){
+						System.out.print("AI win!\n");
+						return true;
+					}
+				}
+				
+				if(cheeseborad[j][i]==cheeseborad[j+1][i]&&cheeseborad[j][i]==cheeseborad[j+2][i]&&cheeseborad[j][i]==cheeseborad[j+3][i]&&cheeseborad[j][i]==cheeseborad[j+4][i]){	
+					if(cheeseborad[j][i]==1){
+						System.out.print("Player win!\n");
+						return true;
+					}
+					else if (cheeseborad[j][i]==2){
+						System.out.print("AI win!\n");
+						return true;
+					}
+				}
+				
+				
+			}
+			
+		}
+		for (int f=0;f<13;f++){
+			for (int s=0;s<13;s++)
+			{
+				if(cheeseborad[f][s]==cheeseborad[f+1][s+1]&&cheeseborad[f][s]==cheeseborad[f+2][s+2]&&cheeseborad[f][s]==cheeseborad[f+3][s+3]&&cheeseborad[f][s]==cheeseborad[f+4][s+4]){
+					if(cheeseborad[f][s]==1){
+						System.out.print("Player win!\n");
+						return true;
+					}
+					else if (cheeseborad[f][s]==2){
+						System.out.print("AI win!\n");
+						return true;
+					}
+
+				}
+				if(cheeseborad[c1-f][c1-s]==cheeseborad[c1-f+1][c1-s+1]&&cheeseborad[c1-f][c1-s]==cheeseborad[c1-f+2][c1-s+2]&&cheeseborad[c1-f][c1-s]==cheeseborad[c1-f+3][c1-s+3]&&cheeseborad[c1-f][c1-s]==cheeseborad[c1-f+4][c1-s+4]){
+					if(cheeseborad[c1-f][c1-s]==1){
+						System.out.print("Player win!\n");
+						return true;
+					}
+					else if (cheeseborad[c1-f][c1-s]==2){
+						System.out.print("AI win!\n");
+						return true;
+					}
+				}
+
+			}
+		}
+		return false;
+	}
+}
+
+
