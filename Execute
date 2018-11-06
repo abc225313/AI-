@@ -64,8 +64,8 @@ public class Execute {
 				                        			cheeseborad=ai.choice(cheeseborad);
 			                        			}
 			                        			else {
-													System.out.print("It is not empty\n");
-												}
+										System.out.print("It is not empty\n");
+									}
 			                        			
 			                        			
 
