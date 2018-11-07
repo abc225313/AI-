@@ -57,15 +57,16 @@ public class Execute {
 		                        	for (int j = 0; j < button.length; j++) {
 		                        		for (int j1 = 0; j1 < button.length; j1++) {
 		                        			if(check(cheeseborad)){break loop;}
-			                        		if (e.getSource() == button[j][j1]){
+			                        		if (e.getSource() == button[j][j1])
+								{
 			                        			if(cheeseborad[j][j1]==0){
 			                        				cheeseborad[j][j1]=1;
 				                        			button[j][j1].setLabel("O");
 				                        			cheeseborad=ai.choice(cheeseborad);
 			                        			}
 			                        			else {
-													System.out.print("It is not empty\n");
-												}
+										System.out.print("It is not empty\n");
+									}
 			                        			
 			                        			
 
