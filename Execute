@@ -118,24 +118,27 @@ public class Execute {
 			}
 			
 		}
-		for (int f=0;f<13;f++){	
-				if(cheeseborad[f][f]==cheeseborad[f+1][f+1]&&cheeseborad[f][f]==cheeseborad[f+2][f+2]&&cheeseborad[f][f]==cheeseborad[f+3][f+3]&&cheeseborad[f][f]==cheeseborad[f+4][f+4]){
-					if(cheeseborad[f][f]==1){
+		int count=0;
+		int up=12;
+		for(int s=0;s<13;s++){
+			for (int f=0;f<=count;f++){	
+				if(cheeseborad[up][f]==cheeseborad[1+up][f+1]&&cheeseborad[up][f]==cheeseborad[2+up][f+2]&&cheeseborad[up][f]==cheeseborad[up+3][f+3]&&cheeseborad[up][f]==cheeseborad[up+4][f+4]){
+					if(cheeseborad[up][f]==1){
 						System.out.print("Player win!\n");
 						return true;
 					}
-					else if (cheeseborad[f][f]==2){
+					else if (cheeseborad[up][f]==2){
 						System.out.print("AI win!\n");
 						return true;
 					}
 
 				}
-				if(cheeseborad[f][c1-f]==cheeseborad[f+1][c1-(f+1)]&&cheeseborad[f][c1-f]==cheeseborad[f+2][c1-(f+2)]&&cheeseborad[f][c1-f]==cheeseborad[f+3][c1-(f+3)]&&cheeseborad[f][c1-f]==cheeseborad[f+4][c1-(f+4)]){
-					if(cheeseborad[f][c1-f]==1){
+				if(cheeseborad[up][c1-f]==cheeseborad[up+1][c1-(f+1)]&&cheeseborad[up][c1-f]==cheeseborad[up+2][c1-(f+2)]&&cheeseborad[up][c1-f]==cheeseborad[up+3][c1-(f+3)]&&cheeseborad[up][c1-f]==cheeseborad[up+4][c1-(f+4)]){
+					if(cheeseborad[up][c1-f]==1){
 						System.out.print("Player win!\n");
 						return true;
 					}
-					else if (cheeseborad[f][c1-f]==2){
+					else if (cheeseborad[up][c1-f]==2){
 						System.out.print("AI win!\n");
 						return true;
 					}
@@ -145,6 +148,10 @@ public class Execute {
 				
 
 			}
+			count++;up--;//--代表往上提升
+			
+		}
+		
 		
 		return false;
 	}
