@@ -208,7 +208,7 @@ public class AI {
 		
 		
 	}
-	void Defend(int [][]cheeseborad)//防守 跟防守後都需要minmax 而which可以假設下在哪一步而去推論
+	void Defend(int [][]cheeseborad)//防守 跟防守後都需要minmax 把可以防守的可能性用A1 A2丟進MinMax求出哪一個A1 A2最優
 	{
 		
 		
