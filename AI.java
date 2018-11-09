@@ -208,12 +208,14 @@ public class AI {
 		
 		
 	}
-	void Defend(int [][]cheeseborad)
+	void Defend(int [][]cheeseborad)//防守 跟防守後都需要minmax 而which可以假設下在哪一步而去推論
 	{
 		
 		
 	}
-	int [][]MinMax(int [][]cheeseborad){//<<經過檢查後 選出最佳步 3
+	int [][]MinMax(int [][]cheeseborad,int A1,int A2){//<<經過檢查後 選出最佳步 3 //目前希望把它回傳值做成要下哪一步的參數
+		int [][]copyCheeseborad=cheeseborad;
+		copyCheeseborad[A1][A2]=2;
 		return cheeseborad;
 	}
 	int	[][] Min(int [][]cheeseborad,int add){
