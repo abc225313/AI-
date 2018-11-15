@@ -4,11 +4,33 @@ import java.util.Random;
 
 public class AI {
 	static int c=0;
+	
 	Random random=new Random();
-	public void choice(int [][]cheeseborad){//<<一開始因應對手區域隨機下棋 1
-		if(c<4){
-			c=c==3?4:c;
-			cheeseborad[c+1][5-c]=2;
+	int[][]collectP=new int[8][2];
+	int times=0;
+	ArrayList<Integer>possible=new ArrayList<Integer>();
+	public void choice(int [][]cheeseborad,int f,int s){//<<一開始因應對手區域隨機下棋 1
+		if(c<1)
+		{
+			int first = 0,second=0,fend=0,send=0;
+			
+			first=f==0?f:f-1;
+			second=s==0?s:s-1;
+			fend=f<16?f+1:f;
+			send=s<16?s+1:s;
+			for(int ff=first;ff<=fend;ff++){
+				for (int ss=second; ss <= send;ss++) {
+					if(ff!=f||ss!=s){
+						collectP[times][0]=ff;
+						collectP[times][1]=ss;
+						times++;
+					}
+				}
+				
+			}
+			int r=random.nextInt(times);
+			cheeseborad[collectP[r][0]][collectP[r][1]]=2;
+			
 			c++;
 		}
 		else {
@@ -21,7 +43,6 @@ public class AI {
 		int c1=16;
 		int judge=0;int judge2=0;int judge3=0;int judge4=0;int judge5=0;int judge6=0;
 		int count =0;
-		ArrayList possible=new ArrayList();
 		loop:
 		for (int i = 0; i <17; i++) {
 			for (int j = 0; j <13; j++) {
@@ -46,7 +67,8 @@ public class AI {
 							break loop;
 						}
 						else {
-							
+							//possible.add(i);
+							//possible.add(j+4);
 						}
 						count++;
 						
@@ -59,6 +81,8 @@ public class AI {
 							break loop;
 						}
 						else {
+							//possible.add(i);
+							//possible.add(j+4);
 							
 						}
 						count++;
@@ -183,7 +207,7 @@ public class AI {
 		loop:
 		for(int s=0;s<13;s++){
 			for (int f=0;f<=s;f++){	
-				judge3=0;judge4=0;
+				judge3=0;judge4=0;judge5=0;judge6=0;
 				if(cheeseborad[up+f][f]==decideNumber)		judge3++;
 				if(cheeseborad[up+f+1][f+1]==decideNumber)	judge3++;
 				if(cheeseborad[up+f+2][f+2]==decideNumber)	judge3++;
@@ -202,7 +226,7 @@ public class AI {
 				if(cheeseborad[down+3-f][f+1]==decideNumber)	judge5++;
 				if(cheeseborad[down+4-f][f]==decideNumber)		judge5++;
 				
-				if(cheeseborad[down-f][c1-(f+4)]==decideNumber)	judge6++;
+				if(cheeseborad[down-f][c1-(f+4)]==decideNumber)		judge6++;
 				if(cheeseborad[down+1-f][c1-(f+3)]==decideNumber)	judge6++;
 				if(cheeseborad[down+2-f][c1-(f+2)]==decideNumber)	judge6++;
 				if(cheeseborad[down+3-f][c1-(f+1)]==decideNumber)	judge6++;
@@ -381,14 +405,14 @@ public class AI {
 					}
 					
 				}
-				//
+				
 				if(judge6>=judgeNumber){
 					if(cheeseborad[down-f][c1-(f+4)]==0){
 						if(decideNumber==2){
 							cheeseborad[down-f][c1-(f+4)]=2;
 							break loop;
 						}
-						else {
+						else{
 							
 						}
 						count++;
@@ -435,8 +459,7 @@ public class AI {
 
 					}
 					
-				}
-				
+				}			
 				
 
 			}
@@ -447,7 +470,7 @@ public class AI {
 			AttackAndDefend(cheeseborad, 3,1);//防守
 		}
 		else if (count>0&&decideNumber==1) {
-			// A* MINMAX
+			
 		}
 		else if (count==0&&decideNumber==1) {
 			//把所有可防守性丟到minmax去評估最佳解
@@ -455,14 +478,17 @@ public class AI {
 		
 		
 	}
-	void Defend(int [][]cheeseborad)//防守 跟防守後都需要minmax 把可以防守的可能性用A1 A2丟進MinMax求出哪一個A1 A2最優
-	{
-		
-		
-	}
-	int [][]MinMax(int [][]cheeseborad,int A1,int A2){//<<經過檢查後 選出最佳步 3 //目前希望把它回傳值做成要下哪一步的參數
+	
+	int [][]MinMax(int [][]cheeseborad,ArrayList<Integer>re){//<<經過檢查後 選出最佳步 3 //目前希望把它回傳值做成要下哪一步的參數
 		int [][]copyCheeseborad=cheeseborad;
-		copyCheeseborad[A1][A2]=2;
+		int half=re.size()/2;
+		int z=0,o=1;
+		//copyCheeseborad[A1][A2]=2;
+		for (int i = 0; i < half; i++){
+			copyCheeseborad[re.get(z)][re.get(o)]=2;
+			//這裡處理
+			z=o+1;o=z+1;
+		}
 		return cheeseborad;
 	}
 	int	[][] Min(int [][]cheeseborad,int add){
