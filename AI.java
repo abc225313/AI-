@@ -10,7 +10,7 @@ public class AI {
 	int times=0;
 	ArrayList<Integer>possible=new ArrayList<Integer>();
 	public void choice(int [][]cheeseborad,int f,int s){//<<一開始因應對手區域隨機下棋 1
-		if(c<1)
+		if(c<2)
 		{
 			int first = 0,second=0,fend=0,send=0;
 			
@@ -20,7 +20,7 @@ public class AI {
 			send=s<16?s+1:s;
 			for(int ff=first;ff<=fend;ff++){
 				for (int ss=second; ss <= send;ss++) {
-					if(ff!=f||ss!=s){
+					if(cheeseborad[ff][ss]==0){
 						collectP[times][0]=ff;
 						collectP[times][1]=ss;
 						times++;
@@ -67,8 +67,8 @@ public class AI {
 							break loop;
 						}
 						else {
-							//possible.add(i);
-							//possible.add(j+4);
+							possible.add(i);
+							possible.add(j+4);
 						}
 						count++;
 						
@@ -81,8 +81,8 @@ public class AI {
 							break loop;
 						}
 						else {
-							//possible.add(i);
-							//possible.add(j+4);
+							possible.add(i);
+							possible.add(j+3);
 							
 						}
 						count++;
@@ -90,24 +90,28 @@ public class AI {
 					}
 									
 					
-					if(cheeseborad[i][j+1]==0){
+					if(cheeseborad[i][j+2]==0){
 						if(decideNumber==2){
-							cheeseborad[i][j+1]=2;
+							cheeseborad[i][j+2]=2;
 							break loop;
 						}
 						else {
+							possible.add(i);
+							possible.add(j+2);
 							
 						}		
 						count++;
 
 					}		
 					
-					if(cheeseborad[i][j+2]==0){
+					if(cheeseborad[i][j+1]==0){
 						if (decideNumber==2) {
-							cheeseborad[i][j+2]=2;
+							cheeseborad[i][j+1]=2;
 							break loop;
 						}	
-						else {
+						else{
+							possible.add(i);
+							possible.add(j+1);
 							
 						}
 						count++;
@@ -121,6 +125,8 @@ public class AI {
 							break loop;
 						}
 						else {
+							possible.add(i);
+							possible.add(j);
 							
 						}
 						count++;
@@ -137,7 +143,8 @@ public class AI {
 							break loop;
 						}
 						else {
-							
+							possible.add(j+4);
+							possible.add(i);
 						}
 						count++;	
 						
@@ -149,7 +156,9 @@ public class AI {
 							cheeseborad[j+3][i]=2;
 							break loop;
 						}
-						else {
+						else{
+							possible.add(j+3);
+							possible.add(i);
 							
 						}
 						count++;
@@ -157,12 +166,14 @@ public class AI {
 					}
 					
 					
-					if(cheeseborad[j+1][i]==0){
+					if(cheeseborad[j+2][i]==0){
 						if (decideNumber==2) {
-							cheeseborad[j+1][i]=2;
+							cheeseborad[j+2][i]=2;
 							break loop;
 						}
 						else {
+							possible.add(j+2);
+							possible.add(i);
 							
 						}
 						count++;
@@ -170,12 +181,14 @@ public class AI {
 					}
 				
 
-					if(cheeseborad[j+2][i]==0){
+					if(cheeseborad[j+1][i]==0){
 						if (decideNumber==2) {
-							cheeseborad[j+2][i]=2;
+							cheeseborad[j+1][i]=2;
 							break loop;
 						}
 						else {
+							possible.add(j+1);
+							possible.add(i);
 							
 						}
 						count++;
@@ -189,7 +202,8 @@ public class AI {
 							break loop;
 						}
 						else {
-							
+							possible.add(j);
+							possible.add(i);
 						}
 						count++;
 						
@@ -239,7 +253,8 @@ public class AI {
 							break loop;
 						}
 						else {
-							
+							possible.add(up+f);
+							possible.add(f);
 						}
 						count++;
 						
@@ -251,7 +266,7 @@ public class AI {
 							break loop;
 						}
 						else {
-							
+							possible.add(up+f+1);
 						}
 						count++;
 						
@@ -291,7 +306,7 @@ public class AI {
 					}
 					
 				}
-				if (judge4>=judgeNumber)//目前這裡有問題
+				if (judge4>=judgeNumber)
 				{
 					if(cheeseborad[up+f][c1-f]==0){
 						if (decideNumber==2) {
@@ -469,27 +484,99 @@ public class AI {
 		if (count==0&&decideNumber==2) {
 			AttackAndDefend(cheeseborad, 3,1);//防守
 		}
-		else if (count>0&&decideNumber==1) {
+		else if (count>0&&decideNumber==1)
+		{
+			
+			if(possible.size()==2)
+			{
+				cheeseborad[possible.get(0)][possible.get(1)]=2;
+			}
+			
+			else
+			{
+				int[]array=WhoisBig(cheeseborad, possible);
+				cheeseborad[array[0]][array[1]]=2;
+				
+			}
+			
+			
+			//System.out.printf("big:",big);
+			
 			
 		}
-		else if (count==0&&decideNumber==1) {
-			//把所有可防守性丟到minmax去評估最佳解
+		else if (count==0&&decideNumber==1)
+		{
+			
 		}
 		
 		
 	}
-	
-	int [][]MinMax(int [][]cheeseborad,ArrayList<Integer>re){//<<經過檢查後 選出最佳步 3 //目前希望把它回傳值做成要下哪一步的參數
-		int [][]copyCheeseborad=cheeseborad;
-		int half=re.size()/2;
-		int z=0,o=1;
-		//copyCheeseborad[A1][A2]=2;
-		for (int i = 0; i < half; i++){
-			copyCheeseborad[re.get(z)][re.get(o)]=2;
-			//這裡處理
-			z=o+1;o=z+1;
+	int []WhoisBig(int [][]cheeseborad,ArrayList<Integer>arrayList){//這有問題
+		int end=possible.size()/2;///
+		int []copy=new int[2];
+		int f=0,f1=1,f2=2,f3=3;
+		copy[0]=arrayList.get(0);
+		copy[1]=arrayList.get(1);
+		for(int i=0;i<end-1;i++){
+			if(MinMax(cheeseborad, arrayList.get(f), arrayList.get(f1))<MinMax(cheeseborad, arrayList.get(f2), arrayList.get(f3)))
+			{
+				copy[0]=arrayList.get(f2);
+				copy[1]=arrayList.get(f3);
+			}
+			
+			f=f1+1;f1=f+1;f2=f3+1;f3=f2+1;
 		}
-		return cheeseborad;
+		
+		return copy;
+		
+	}
+	
+	int MinMax(int [][]cheeseborad,int a,int b)//應該偏向多重防守
+	{
+		int points=0;int line=0;
+		int judge1=0;int judge2=0;
+		a=a<4?0:a-4;
+		a=a>8?8:a;
+		b=b<4?0:b-4;
+		b=b>8?8:b;
+		for(int first=0;first<5;first++)
+		{		
+			judge1=0;judge2=0;
+			if(cheeseborad[a][b+first]!=1)	judge1++;			
+			if(cheeseborad[a][b+1+first]!=1)	judge1++;
+			if(cheeseborad[a][b+2+first]!=1)	judge1++;
+			if(cheeseborad[a][b+3+first]!=1)	judge1++;
+			if(cheeseborad[a][b+4+first]!=1)	judge1++;
+			
+			if(cheeseborad[a+first][b]!=1)	judge2++;
+			if(cheeseborad[a+1+first][b]!=1)	judge2++;
+			if(cheeseborad[a+2+first][b]!=1)	judge2++;
+			if(cheeseborad[a+3+first][b]!=1)	judge2++;
+			if (cheeseborad[a+4+first][b]!=1)	judge2++;
+			
+			if(judge1>4){
+				line+=10;
+				points=cheeseborad[a][b+first]==2?points+=4:points;
+				points=cheeseborad[a][b+1+first]==2?points+=4:points;
+				points=cheeseborad[a][b+2+first]==2?points+=4:points;
+				points=cheeseborad[a][b+3+first]==2?points+=4:points;
+				points=cheeseborad[a][b+4+first]==2?points+=4:points;
+			}
+			if(judge2>4){
+				line+=10;
+				points=cheeseborad[a+first][b]==2?points+=4:points;
+				points=cheeseborad[a+1+first][b]==2?points+=4:points;
+				points=cheeseborad[a+2+first][b]==2?points+=4:points;
+				points=cheeseborad[a+3+first][b]==2?points+=4:points;
+				points=cheeseborad[a+4+first][b]==2?points+=4:points;
+			}
+			
+		}
+		
+		
+		
+		
+		return line+points;
 	}
 	int	[][] Min(int [][]cheeseborad,int add){
 		return cheeseborad;
